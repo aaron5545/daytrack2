@@ -155,6 +155,18 @@
   .cd-editing{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint)}
   .cd-right{flex:1;min-width:0}
   .cd-right svg{display:block;max-width:100%}
+  .countdown + .countdown{margin-top:14px}
+  .hr-log{display:flex;align-items:center;gap:7px;padding-top:11px;border-top:1px dashed var(--line)}
+  .hr-day{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);min-width:78px}
+  .hr-in{width:58px;font-family:var(--mono);font-size:14px;padding:5px 7px;border:1px solid var(--line-strong);border-radius:7px;background:var(--field);color:var(--ink);outline:none;text-align:right;-moz-appearance:textfield}
+  .hr-in::-webkit-outer-spin-button,.hr-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .hr-in:focus{border-color:var(--accent)}
+  .hr-unit{font-family:var(--mono);font-size:12px;color:var(--faint)}
+  .hr-log button{border:1px solid var(--line-strong);background:var(--field);color:var(--ink);width:26px;height:26px;border-radius:7px;cursor:pointer;font-family:var(--mono);font-size:15px;line-height:1;transition:background .14s var(--ease)}
+  .hr-log button:hover{background:var(--hover)}
+  .hr-sub{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.04em}
+  .hr-hit{cursor:pointer}
+  .hr-hit:hover{fill:var(--hover-2);fill-opacity:.55}
   .cd-pulse{transform-box:fill-box;transform-origin:center;animation:cdpulse 2.2s ease-in-out infinite}
   @keyframes cdpulse{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:.35;transform:scale(1.5)}}
 
@@ -237,68 +249,6 @@
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   @keyframes growY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
   @keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-  /* mobile-only chrome, hidden on desktop */
-  .m-only{display:none}
-  .daystrip{display:flex;gap:4px;margin-bottom:12px}
-  .dstrip-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0;border:none;background:transparent;cursor:pointer;border-radius:12px}
-  .dstrip-day .dl{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--faint)}
-  .dstrip-day.sel .dl{color:var(--accent)}
-  .daysum{display:flex;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:14px}
-  .daysum .t1{font-family:var(--display);font-weight:600;font-size:17px;color:var(--ink)}
-  .daysum .t2{font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:2px}
-  .daysum .ringwrap{position:relative;width:52px;height:52px}
-  .daysum .ringwrap .rt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--ink)}
-  .fab{position:fixed;right:18px;bottom:96px;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;border:none;box-shadow:0 12px 26px -8px rgba(0,0,0,.45);font-size:30px;line-height:1;cursor:pointer;align-items:center;justify-content:center;z-index:40}
-  .tabbar{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:45}
-  .tabbar button{flex:1;border:none;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--faint);cursor:pointer;font-family:var(--body);font-size:11px;font-weight:500;padding:10px 0 12px}
-  .tabbar button.on{color:var(--accent)}
-  .task.longpress{background:var(--accent-soft);transform:scale(1.02)}
-  .m-hide{display:none !important}
-
-  @media (max-width:680px){
-    .m-only{display:flex}
-    .wrap{padding:14px 12px 110px}
-    header.top{flex-direction:row;align-items:center;gap:10px;margin-bottom:12px}
-    .wordmark{font-size:20px}
-    .tagline{display:none}
-    .nav{gap:6px}
-    .nav .segmented,.nav .divider,#prevBtn,#nextBtn,#todayBtn,.weeklabel{display:none}
-    .meter{flex-wrap:wrap;gap:10px 12px;padding:13px 15px;margin-bottom:14px}
-    .meter .label{order:1}
-    .meter .stat{order:2;margin-left:auto}
-    .meter .track{order:3;flex-basis:100%}
-    .meter .count{order:4;flex-basis:100%;text-align:left}
-
-    .board{display:block !important}
-    .board .col{border:none;background:transparent;min-height:0;box-shadow:none !important}
-    .board .col:not(.m-active){display:none}
-    .board .col .spine,.board .col .col-head{display:none}
-    .board .col .tasklist{padding:0;gap:8px}
-    .task{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;gap:12px;align-items:center}
-    .check{width:24px;height:24px;border-radius:50%;border-width:2px;margin-top:0}
-    .check svg{width:13px;height:13px}
-    .task-title{font-size:15px}
-    .del{opacity:1;transform:none;font-size:19px;padding:0 4px}
-    .add-task{display:none}
-    .empty{text-align:center;padding:26px 10px}
-
-    .countdown,.meter{margin-top:0}
-    .countdown{flex-direction:column;align-items:stretch;gap:16px;padding:16px}
-    .cd-left{border-right:none;border-bottom:1px solid var(--line);padding-right:0;padding-bottom:16px;align-items:center}
-    .cd-mid{justify-content:center}
-    .cd-right{width:100%}
-
-    .overlay{align-items:flex-end;padding:0}
-    .modal{max-width:100% !important;border-radius:20px 20px 0 0;transform:translateY(100%);transition:transform .3s var(--ease);max-height:88vh;overflow-y:auto}
-    .overlay.open .modal{transform:translateY(0)}
-    .modal-head{padding:16px 16px 4px}
-    .modal-body{padding:12px 16px 4px}
-    .modal-foot{padding:14px 16px calc(18px + env(safe-area-inset-bottom))}
-    .modal-foot .btn,.modal-foot .add-cat-btn{flex:1;padding:12px;text-align:center}
-    .field input.text,.cname,.rename-input,.cd-name-input{font-size:16px}
-    .analysis-body{max-height:none}
-    .menu-pop{min-width:160px}
-  }
   @media (prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} }
 </style>
 </head>
@@ -342,20 +292,12 @@
     <span class="count" id="weekCount">0 / 0 done</span>
   </div>
 
-  <div class="m-only" id="mDayStrip" style="display:none"></div>
-  <div class="daysum m-only" id="mDaySum" style="display:none"></div>
-
   <div class="board view-week" id="board"></div>
 
   <div class="countdown" id="countdown"></div>
-</div>
 
-<button class="fab m-only" id="fab" style="display:none" aria-label="Add task">+</button>
-<nav class="tabbar m-only" id="tabbar" style="display:none">
-  <button data-tab="days" class="on"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Days</button>
-  <button data-tab="goal"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>Goal</button>
-  <button data-tab="stats"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Stats</button>
-</nav>
+  <div class="countdown hours" id="hoursPanel"></div>
+</div>
 
 <input type="file" id="importFile" accept="application/json,.json" style="display:none" />
 
@@ -465,14 +407,15 @@
           categories:(Array.isArray(d.categories)&&d.categories.length)?d.categories:DEFAULT_CATS.slice(),
           view:(d.view==="day"||d.view==="3day"||d.view==="week")?d.view:"week",
           milestone:(d.milestone&&typeof d.milestone==="object")?d.milestone:null,
+          hours:(d.hours&&typeof d.hours==="object")?d.hours:null,
           theme:(d.theme==="dark")?"dark":"light"
         };
       }
     }catch(e){}
-    return {tasks:[],completions:{},categories:DEFAULT_CATS.slice(),view:"week",milestone:null,theme:"light"};
+    return {tasks:[],completions:{},categories:DEFAULT_CATS.slice(),view:"week",milestone:null,hours:null,theme:"light"};
   }
   function save(){
-    try{ localStorage.setItem(STORE,JSON.stringify({tasks:state.tasks,completions:state.completions,categories:state.categories,view:state.view,milestone:state.milestone,theme:state.theme})); }catch(e){}
+    try{ localStorage.setItem(STORE,JSON.stringify({tasks:state.tasks,completions:state.completions,categories:state.categories,view:state.view,milestone:state.milestone,hours:state.hours,theme:state.theme})); }catch(e){}
   }
 
   function ensureOrders(){
@@ -499,8 +442,6 @@
   var anchor=parseISO(todayISO);
   var meterMode="range";
   var cdEditTarget=null;
-  var MQ=window.matchMedia("(max-width:680px)");
-  var mTab="days", mDay=todayISO;
 
   function catById(id){for(var i=0;i<state.categories.length;i++){if(state.categories[i].id===id)return state.categories[i];}return null;}
   function taskById(id){for(var i=0;i<state.tasks.length;i++){if(state.tasks[i].id===id)return state.tasks[i];}return null;}
@@ -629,7 +570,6 @@
     del.className="del";del.innerHTML="&times;";del.setAttribute("aria-label","Delete "+t.title);
     del.addEventListener("click",function(){ deleteTask(t); });
     row.appendChild(del);
-    if(window.__attachTouchDrag) window.__attachTouchDrag(row,t,dayISO);
     return row;
   }
 
@@ -684,11 +624,7 @@
   }
 
   function renderBoard(animate){
-    var days;
-    if(typeof MQ!=="undefined" && MQ.matches){
-      var ws=weekStartOf(parseISO(mDay)); days=[];
-      for(var q=0;q<7;q++) days.push(addDays(ws,q));
-    } else days=visibleDays();
+    var days=visibleDays();
     boardEl.className="board view-"+state.view;
     boardEl.innerHTML="";
     days.forEach(function(d,idx){ boardEl.appendChild(buildColumn(d,idx,animate)); });
@@ -738,7 +674,6 @@
     updateDayStats(dayISO);
     updateMeter();
     renderCountdown();
-    if(typeof renderMobileDays==="function") renderMobileDays();
   }
 
   function startRename(row,titleEl,t){
@@ -783,7 +718,7 @@
       row.style.transition="height .26s "+CE+",opacity .2s "+CE+",margin .26s "+CE+",padding .26s "+CE;
       row.style.opacity="0";row.style.height="0px";row.style.paddingTop="0";row.style.paddingBottom="0";row.style.marginTop="0";row.style.marginBottom="0";
       var gone=false;
-      function fin(){ if(gone)return;gone=true; if(row.parentNode)row.parentNode.removeChild(row); days.forEach(updateDayStats); updateMeter(); renderCountdown(); if(typeof renderMobileDays==="function") renderMobileDays(); }
+      function fin(){ if(gone)return;gone=true; if(row.parentNode)row.parentNode.removeChild(row); days.forEach(updateDayStats); updateMeter(); renderCountdown(); }
       row.addEventListener("transitionend",fin);
       setTimeout(fin,340);
     });
@@ -891,6 +826,150 @@
     }
     var baseLine='<line x1="0" y1="'+base+'" x2="'+W+'" y2="'+base+'" stroke="'+CL+'" stroke-width="1"/>';
     holder.innerHTML='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="max-width:100%">'+baseLine+stubs+bars+'</svg>';
+  }
+
+  // ---------- Hours tracker ----------
+  var hoursEl=document.getElementById("hoursPanel");
+  var hrEditTarget=null, hrSel=null;
+  function ensureHours(){
+    var h=state.hours,changed=false;
+    if(!h||typeof h!=="object"){state.hours={name:"Work hours",start:todayISO,total:30,log:{}};return true;}
+    if(!h.start){h.start=todayISO;changed=true;}
+    if(typeof h.total!=="number"){h.total=30;changed=true;}
+    if(typeof h.name!=="string"){h.name="Work hours";changed=true;}
+    if(!h.log||typeof h.log!=="object"){h.log={};changed=true;}
+    return changed;
+  }
+  function hrValues(){
+    var h=state.hours;
+    var total=Math.max(1,Math.round(h.total));
+    var elapsed=Math.max(0,Math.min(total,daysBetween(h.start,todayISO)));
+    var lastIdx=Math.min(elapsed,total-1); // last day you can log (today, or the final day if the run is over)
+    var sum=0,days=0;
+    for(var i=0;i<=lastIdx;i++){var v=+h.log[fmtISO(addDays(parseISO(h.start),i))]||0; sum+=v; if(v>0)days++;}
+    var counted=lastIdx+1;
+    return {total:total,elapsed:elapsed,left:total-elapsed,name:h.name,start:h.start,lastIdx:lastIdx,sum:sum,avg:counted?sum/counted:0,loggedDays:days};
+  }
+  function fmtH(n){return String(Math.round(n*100)/100);}
+  function hrDayLabel(iso){
+    if(iso===todayISO) return "Today";
+    var d=parseISO(iso); return DOW[(d.getDay()+6)%7]+" "+d.getDate()+" "+MONTHS[d.getMonth()];
+  }
+  function hrValidSel(v){
+    var first=v.start, last=fmtISO(addDays(parseISO(v.start),v.lastIdx));
+    if(!hrSel||hrSel<first||hrSel>last) hrSel=last;
+    return hrSel;
+  }
+
+  function renderHours(){
+    if(!hoursEl) return;
+    if(ensureHours()) save();
+    var v=hrValues(), sel=hrValidSel(v);
+    var pct=Math.round(v.elapsed/v.total*100);
+    var C=2*Math.PI*30, green=C*v.elapsed/v.total;
+    var CS=cvar('--cd-stub'), CA=cvar('--accent'), CI=cvar('--ink');
+    var cur=+state.hours.log[sel]||0;
+    hoursEl.innerHTML=
+      '<div class="cd-left">'+
+        '<div class="cd-capt">Hours toward <span class="cd-name" id="hrName" title="Click to rename">'+escapeHtml(v.name)+'</span></div>'+
+        '<div class="cd-mid">'+
+          '<svg width="76" height="76" viewBox="0 0 76 76" aria-hidden="true">'+
+            '<circle cx="38" cy="38" r="30" fill="none" stroke="'+CS+'" stroke-width="9"></circle>'+
+            '<circle cx="38" cy="38" r="30" fill="none" stroke="'+CA+'" stroke-width="9" stroke-linecap="round" transform="rotate(-90 38 38)" stroke-dasharray="'+green.toFixed(1)+' '+C.toFixed(1)+'"></circle>'+
+            '<text x="38" y="37" text-anchor="middle" style="font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:16px;fill:'+CI+'">'+fmtH(v.sum)+'h</text>'+
+            '<text x="38" y="51" text-anchor="middle" style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;fill:'+cvar('--muted')+'">total</text>'+
+          '</svg>'+
+          '<div class="cd-num">'+
+            '<div><span class="big'+(hrEditTarget==="left"?" editing":"")+'" id="hrLeft">'+v.left+'</span><span class="tot'+(hrEditTarget==="total"?" editing":"")+'" id="hrTot">/'+v.total+'</span></div>'+
+            '<div class="lbl">days left</div>'+
+            '<div class="cd-step'+(hrEditTarget?" open":"")+'"><button id="hrMinus" aria-label="Decrease">−</button><button id="hrPlus" aria-label="Increase">+</button><span class="cd-editing">'+(hrEditTarget==="total"?"total days":"days left")+'</span></div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="hr-log">'+
+          '<span class="hr-day" id="hrDay">'+hrDayLabel(sel)+'</span>'+
+          '<input class="hr-in" id="hrIn" type="number" min="0" max="24" step="0.5" inputmode="decimal" value="'+(cur?fmtH(cur):"")+'" placeholder="0" aria-label="Hours worked on '+hrDayLabel(sel)+'" />'+
+          '<span class="hr-unit">h</span>'+
+          '<button id="hrDec" aria-label="Half an hour less">−</button><button id="hrInc" aria-label="Half an hour more">+</button>'+
+        '</div>'+
+        '<div class="hr-sub">avg '+fmtH(v.avg)+' h/day · '+v.loggedDays+' day'+(v.loggedDays===1?"":"s")+' logged · click a bar to edit that day</div>'+
+      '</div>'+
+      '<div class="cd-right" id="hrRight"></div>';
+    wireHours();
+    drawHoursChart(v);
+  }
+
+  function setHours(iso,val){
+    val=Math.max(0,Math.min(24,Math.round((+val||0)*4)/4));
+    if(val>0) state.hours.log[iso]=val; else delete state.hours.log[iso];
+    save();
+  }
+  function wireHours(){
+    var nm=document.getElementById("hrName");
+    if(nm) nm.addEventListener("click",function(){
+      var h=state.hours, inp=document.createElement("input"); inp.className="cd-name-input"; inp.value=h.name;
+      nm.parentNode.replaceChild(inp,nm); inp.focus(); inp.select();
+      var done=false;
+      function commit(){if(done)return;done=true;h.name=inp.value.trim()||h.name;save();renderHours();}
+      inp.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();commit();}else if(e.key==="Escape"){done=true;renderHours();}});
+      inp.addEventListener("blur",commit);
+    });
+    document.getElementById("hrLeft").addEventListener("click",function(){hrEditTarget=(hrEditTarget==="left"?null:"left");renderHours();});
+    document.getElementById("hrTot").addEventListener("click",function(){hrEditTarget=(hrEditTarget==="total"?null:"total");renderHours();});
+    document.getElementById("hrMinus").addEventListener("click",function(){changeHr(-1);});
+    document.getElementById("hrPlus").addEventListener("click",function(){changeHr(1);});
+    var inp=document.getElementById("hrIn");
+    inp.addEventListener("change",function(){ setHours(hrSel,inp.value); renderHours(); });
+    inp.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); inp.blur(); } });
+    document.getElementById("hrDec").addEventListener("click",function(){ setHours(hrSel,(+state.hours.log[hrSel]||0)-0.5); renderHours(); });
+    document.getElementById("hrInc").addEventListener("click",function(){ setHours(hrSel,(+state.hours.log[hrSel]||0)+0.5); renderHours(); });
+  }
+  function changeHr(d){
+    var v=hrValues();
+    if(hrEditTarget==="total"){
+      state.hours.total=Math.min(200,Math.max(Math.max(1,v.elapsed),v.total+d));
+    }else{
+      var newLeft=Math.max(0,Math.min(v.total,v.left+d));
+      state.hours.start=fmtISO(addDays(parseISO(todayISO),-(v.total-newLeft)));
+    }
+    save(); renderHours();
+  }
+
+  function drawHoursChart(v){
+    var holder=document.getElementById("hrRight"); if(!holder)return;
+    var CG=cvar('--cd-green'), CS=cvar('--cd-stub'), CT=cvar('--cd-today'), CL=cvar('--line'), CM=cvar('--muted');
+    var W=Math.max(120,Math.floor(holder.clientWidth||holder.getBoundingClientRect().width||420));
+    var H=118, base=104, maxH=72, total=v.total;
+    var slot=W/total, barW=Math.max(2,Math.min(slot*0.62,20));
+    var log=state.hours.log, peak=4;
+    for(var k=0;k<=v.lastIdx;k++){var hv=+log[fmtISO(addDays(parseISO(v.start),k))]||0; if(hv>peak)peak=hv;}
+    var showVals=slot>=17;
+    var out="",hits="";
+    for(var i=0;i<total;i++){
+      var x=i*slot+slot/2, iso=fmtISO(addDays(parseISO(v.start),i));
+      if(i<=v.lastIdx){
+        var hrs=+log[iso]||0, isSel=(iso===hrSel), isToday=(iso===todayISO);
+        var col=isSel?CT:CG;
+        if(hrs>0){
+          var h=4+hrs/peak*maxH, y=base-h;
+          out+='<rect x="'+(x-barW/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+barW.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="2" fill="'+col+'"/>';
+          if(showVals) out+='<text x="'+x.toFixed(1)+'" y="'+(y-4).toFixed(1)+'" text-anchor="middle" style="font-family:\'IBM Plex Mono\',monospace;font-size:9.5px;fill:'+(isSel?CT:CM)+'">'+fmtH(hrs)+'</text>';
+        } else {
+          out+='<rect x="'+(x-barW/2).toFixed(1)+'" y="'+(base-4).toFixed(1)+'" width="'+barW.toFixed(1)+'" height="4" rx="2" fill="'+(isSel?CT:CS)+'"/>';
+        }
+        if(isToday){
+          var top=hrs>0?base-(4+hrs/peak*maxH):base-4, off=(hrs>0&&showVals)?16:9;
+          out+='<circle class="cd-pulse" cx="'+x.toFixed(1)+'" cy="'+(top-off).toFixed(1)+'" r="3.2" fill="'+CT+'"/>';
+        }
+        hits+='<rect class="hr-hit" data-iso="'+iso+'" x="'+(i*slot).toFixed(1)+'" y="0" width="'+slot.toFixed(1)+'" height="'+H+'" fill="transparent"><title>'+hrDayLabel(iso)+': '+fmtH(+log[iso]||0)+' h</title></rect>';
+      } else {
+        out+='<rect x="'+(x-barW/2).toFixed(1)+'" y="'+(base-6).toFixed(1)+'" width="'+barW.toFixed(1)+'" height="6" rx="2" fill="'+(i===total-1?CG:CS)+'"/>';
+      }
+    }
+    var baseLine='<line x1="0" y1="'+base+'" x2="'+W+'" y2="'+base+'" stroke="'+CL+'" stroke-width="1"/>';
+    holder.innerHTML='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="max-width:100%">'+hits+baseLine+out+'</svg>';
+    holder.querySelectorAll(".hr-hit").forEach(function(r){
+      r.addEventListener("click",function(){ hrSel=r.getAttribute("data-iso"); renderHours(); var i=document.getElementById("hrIn"); if(i){i.focus();i.select();} });
+    });
   }
 
   // ---- Add-task modal ----
@@ -1118,7 +1197,7 @@
   // ---- Export / Import ----
   var importFile=document.getElementById("importFile");
   function doExport(){
-    var payload={app:"daytrack",version:1,exportedAt:new Date().toISOString(),data:{tasks:state.tasks,completions:state.completions,categories:state.categories,milestone:state.milestone}};
+    var payload={app:"daytrack",version:1,exportedAt:new Date().toISOString(),data:{tasks:state.tasks,completions:state.completions,categories:state.categories,milestone:state.milestone,hours:state.hours}};
     var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
     var url=URL.createObjectURL(blob);
     var a=document.createElement("a");a.href=url;a.download="daytrack-backup-"+fmtISO(new Date())+".json";
@@ -1138,7 +1217,8 @@
         state.completions=(d.completions&&typeof d.completions==="object")?d.completions:{};
         state.categories=(Array.isArray(d.categories)&&d.categories.length)?d.categories:DEFAULT_CATS.slice();
         state.milestone=(d.milestone&&typeof d.milestone==="object")?d.milestone:null;
-        ensureOrders(); ensureMilestone(); save(); renderAll(true);
+        state.hours=(d.hours&&typeof d.hours==="object")?d.hours:null;
+        ensureOrders(); ensureMilestone(); ensureHours(); save(); renderAll(true);
       }catch(err){ window.alert("That file doesn't look like a Daytrack backup."); }
     };
     r.readAsText(f);
@@ -1168,7 +1248,7 @@
   }
   document.getElementById("themeBtn").addEventListener("click",function(){
     state.theme = state.theme==="dark"?"light":"dark";
-    save(); applyTheme(); renderCountdown();
+    save(); applyTheme(); renderCountdown(); renderHours();
   });
 
   // ---- view + nav ----
@@ -1195,130 +1275,15 @@
     placeInd(viewSeg,true);
     if(taskOverlay.classList.contains("open")) placeInd(typeSeg,true);
     clearTimeout(rzTimer);
-    rzTimer=setTimeout(function(){ try{ drawSkyline(cdValues()); }catch(e){} },120);
+    rzTimer=setTimeout(function(){ try{ drawSkyline(cdValues()); drawHoursChart(hrValues()); }catch(e){} },120);
   });
-
-  // ---------- mobile layer ----------
-  var mStrip=document.getElementById("mDayStrip"), mSum=document.getElementById("mDaySum");
-  var fab=document.getElementById("fab"), tabbar=document.getElementById("tabbar");
-  function isMobile(){return MQ.matches;}
-
-  function ringSVG(size,rad,stroke,ratio,track,arc,filled,label,labelColor){
-    var C=2*Math.PI*rad,len=(C*Math.max(0,Math.min(1,ratio))).toFixed(1),cx=size/2,s='';
-    s+='<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">';
-    if(filled) s+='<circle cx="'+cx+'" cy="'+cx+'" r="'+(rad+stroke/2+1)+'" fill="'+cvar('--accent')+'"/>';
-    s+='<circle cx="'+cx+'" cy="'+cx+'" r="'+rad+'" fill="none" stroke="'+track+'" stroke-width="'+stroke+'"/>';
-    s+='<circle cx="'+cx+'" cy="'+cx+'" r="'+rad+'" fill="none" stroke="'+arc+'" stroke-width="'+stroke+'" stroke-linecap="round" transform="rotate(-90 '+cx+' '+cx+')" stroke-dasharray="'+len+' '+C.toFixed(1)+'"/>';
-    if(label!=null) s+='<text x="'+cx+'" y="'+(cx+4)+'" text-anchor="middle" style="font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:13px;fill:'+labelColor+'">'+label+'</text>';
-    return s+'</svg>';
-  }
-
-  function renderMobileDays(){
-    if(!isMobile()){mStrip.style.display="none";mSum.style.display="none";return;}
-    var show=(mTab==="days");
-    mStrip.style.display=show?"flex":"none";
-    mSum.style.display=show?"flex":"none";
-    if(!show)return;
-    var start=weekStartOf(parseISO(mDay));
-    mStrip.innerHTML="";
-    for(var i=0;i<7;i++){
-      (function(i){
-        var d=addDays(start,i), iso=fmtISO(d), s=dayTotals(iso), ratio=s.total?s.done/s.total:0, sel=(iso===mDay);
-        var b=document.createElement("button");
-        b.className="dstrip-day"+(sel?" sel":"");
-        b.innerHTML='<span class="dl">'+DOW[i].charAt(0)+'</span>'+
-          ringSVG(34,13,3.2,ratio,sel?"rgba(255,255,255,.35)":cvar('--cd-stub'),sel?"#fff":cvar('--cd-green'),sel,d.getDate(),sel?"#fff":cvar('--ink'));
-        b.addEventListener("click",function(){ mDay=iso; syncMobile(); });
-        mStrip.appendChild(b);
-      })(i);
-    }
-    var st=dayTotals(mDay), r=st.total?st.done/st.total:0, dt=parseISO(mDay);
-    var title=(mDay===todayISO)?"Today":DOW[(dt.getDay()+6)%7];
-    mSum.innerHTML='<div><div class="t1">'+title+'</div><div class="t2">'+DOW[(dt.getDay()+6)%7]+' '+dt.getDate()+' '+MONTHS[dt.getMonth()]+'</div></div>'+
-      '<div class="ringwrap">'+ringSVG(52,20,5,r,cvar('--track'),cvar('--accent'),false,null,null)+'<span class="rt">'+st.done+'/'+st.total+'</span></div>';
-  }
-
-  function syncMobile(){
-    var meterEl=document.querySelector(".meter");
-    if(!isMobile()){
-      document.querySelectorAll(".m-only").forEach(function(e){e.style.display="none";});
-      boardEl.querySelectorAll(".col").forEach(function(c){c.classList.remove("m-active");});
-      [boardEl,meterEl,countdownEl].forEach(function(e){e.classList.remove("m-hide");});
-      return;
-    }
-    fab.style.display=(mTab==="days")?"flex":"none";
-    tabbar.style.display="flex";
-    boardEl.classList.toggle("m-hide", mTab!=="days");
-    meterEl.classList.toggle("m-hide", mTab!=="days");
-    countdownEl.classList.toggle("m-hide", mTab!=="goal");
-    boardEl.querySelectorAll(".col").forEach(function(c){ c.classList.toggle("m-active", c.getAttribute("data-day")===mDay); });
-    renderMobileDays();
-    if(mTab==="stats" && !analysisOverlay.classList.contains("open")) openAnalysis();
-    if(mTab!=="stats" && analysisOverlay.classList.contains("open")) closeAnalysis();
-  }
-  function goTab(name){
-    mTab=name;
-    tabbar.querySelectorAll("button").forEach(function(x){x.classList.toggle("on",x.getAttribute("data-tab")===name);});
-    syncMobile();
-  }
-
-  tabbar.querySelectorAll("button").forEach(function(b){
-    b.addEventListener("click",function(){
-      window.scrollTo({top:0,behavior:"smooth"});
-      goTab(b.getAttribute("data-tab"));
-    });
-  });
-  fab.addEventListener("click",function(){ openTaskModal(mDay); });
-  // leaving Analysis on mobile returns to Days so the screen is never blank
-  document.getElementById("analysisDone").addEventListener("click",function(){ if(isMobile()&&mTab==="stats") setTimeout(function(){goTab("days");},10); });
-  analysisOverlay.addEventListener("mousedown",function(e){ if(e.target===analysisOverlay && isMobile() && mTab==="stats") setTimeout(function(){goTab("days");},10); });
-  if(MQ.addEventListener) MQ.addEventListener("change",function(){ renderAll(false); });
-  else if(MQ.addListener) MQ.addListener(function(){ renderAll(false); });
-
-  // touch long-press drag for reordering / moving between days
-  function attachTouchDrag(row,t,dayISO){
-    var timer=null,active=false,ghost=null,startY=0;
-    row.addEventListener("touchstart",function(e){
-      if(e.touches.length!==1)return;
-      startY=e.touches[0].clientY;
-      timer=setTimeout(function(){
-        active=true; row.classList.add("longpress");
-        if(navigator.vibrate)navigator.vibrate(12);
-      },420);
-    },{passive:true});
-    row.addEventListener("touchmove",function(e){
-      if(!active){ if(Math.abs(e.touches[0].clientY-startY)>10){clearTimeout(timer);} return; }
-      e.preventDefault();
-      var y=e.touches[0].clientY;
-      var listEl=row.parentNode;
-      var after=null, rows=Array.prototype.slice.call(listEl.querySelectorAll(".task"));
-      for(var i=0;i<rows.length;i++){ if(rows[i]===row)continue; var r=rows[i].getBoundingClientRect(); if(y<r.top+r.height/2){after=rows[i];break;} }
-      if(after) listEl.insertBefore(row,after); else listEl.appendChild(row);
-    },{passive:false});
-    function end(){
-      clearTimeout(timer);
-      if(!active)return;
-      active=false; row.classList.remove("longpress");
-      var listEl=row.parentNode;
-      var rows=Array.prototype.slice.call(listEl.querySelectorAll(".task"));
-      var idx=rows.indexOf(row);
-      var before=idx>0?taskById(rows[idx-1].getAttribute("data-task")):null;
-      var after=idx<rows.length-1?taskById(rows[idx+1].getAttribute("data-task")):null;
-      var bo=before?ord(before):null, ao=after?ord(after):null, no;
-      if(bo==null&&ao==null)no=0; else if(bo==null)no=ao-1; else if(ao==null)no=bo+1; else no=(bo+ao)/2;
-      t.order=no; save(); renderBoard(false); syncMobile();
-    }
-    row.addEventListener("touchend",end);
-    row.addEventListener("touchcancel",end);
-  }
-  window.__attachTouchDrag=attachTouchDrag;
 
   function renderAll(animate){
     var days=visibleDays();
     weekLabelEl.textContent=rangeLabel(days[0],days[days.length-1]);
     renderBoard(animate);
     renderCountdown();
-    syncMobile();
+    renderHours();
   }
 
   setInterval(function(){
@@ -1328,12 +1293,13 @@
 
   if(ensureOrders()) save();
   ensureMilestone();
+  ensureHours();
   applyTheme();
   syncViewSeg();
   renderAll(true);
   placeInd(viewSeg,true);
-  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ placeInd(viewSeg,true); drawSkyline(cdValues()); }); }
-  setTimeout(function(){ placeInd(viewSeg,true); drawSkyline(cdValues()); },300);
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ placeInd(viewSeg,true); drawSkyline(cdValues()); drawHoursChart(hrValues()); }); }
+  setTimeout(function(){ placeInd(viewSeg,true); drawSkyline(cdValues()); drawHoursChart(hrValues()); },300);
 })();
 </script>
 </body>
