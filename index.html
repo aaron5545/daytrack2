@@ -156,6 +156,8 @@
   .cd-right{flex:1;min-width:0}
   .cd-right svg{display:block;max-width:100%}
   .countdown + .countdown{margin-top:14px}
+  .countdown .cd-left{width:268px}
+  .hr-sub{line-height:1.5}
   .hr-log{display:flex;align-items:center;gap:7px;padding-top:11px;border-top:1px dashed var(--line)}
   .hr-day{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);min-width:78px}
   .hr-in{width:58px;font-family:var(--mono);font-size:14px;padding:5px 7px;border:1px solid var(--line-strong);border-radius:7px;background:var(--field);color:var(--ink);outline:none;text-align:right;-moz-appearance:textfield}
@@ -891,7 +893,7 @@
           '<span class="hr-unit">h</span>'+
           '<button id="hrDec" aria-label="Half an hour less">−</button><button id="hrInc" aria-label="Half an hour more">+</button>'+
         '</div>'+
-        '<div class="hr-sub">avg '+fmtH(v.avg)+' h/day · '+v.loggedDays+' day'+(v.loggedDays===1?"":"s")+' logged · click a bar to edit that day</div>'+
+        '<div class="hr-sub">avg '+fmtH(v.avg)+' h/day · '+v.loggedDays+' day'+(v.loggedDays===1?"":"s")+' logged<br>click a bar to edit that day</div>'+
       '</div>'+
       '<div class="cd-right" id="hrRight"></div>';
     wireHours();
