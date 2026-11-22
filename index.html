@@ -157,16 +157,12 @@
   .cd-right svg{display:block;max-width:100%}
   .countdown + .countdown{margin-top:14px}
   .countdown .cd-left{width:268px}
-  .hr-sub{line-height:1.5}
-  .hr-log{display:flex;align-items:center;gap:7px;padding-top:11px;border-top:1px dashed var(--line)}
-  .hr-day{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);min-width:78px}
-  .hr-in{width:58px;font-family:var(--mono);font-size:14px;padding:5px 7px;border:1px solid var(--line-strong);border-radius:7px;background:var(--field);color:var(--ink);outline:none;text-align:right;-moz-appearance:textfield}
-  .hr-in::-webkit-outer-spin-button,.hr-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  .hr-in:focus{border-color:var(--accent)}
-  .hr-unit{font-family:var(--mono);font-size:12px;color:var(--faint)}
-  .hr-log button{border:1px solid var(--line-strong);background:var(--field);color:var(--ink);width:26px;height:26px;border-radius:7px;cursor:pointer;font-family:var(--mono);font-size:15px;line-height:1;transition:background .14s var(--ease)}
-  .hr-log button:hover{background:var(--hover)}
-  .hr-sub{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.04em}
+  .hr-static{cursor:default}
+  .hours .cd-num .big,.hours .cd-num .tot{font-size:34px}
+  .hr-step{margin-top:6px}
+  .hr-step button{width:22px;height:22px;font-size:14px}
+  .hr-cur{font-weight:600;color:var(--ink)}
+  .hours .cd-capt{white-space:nowrap}
   .hr-hit{cursor:pointer}
   .hr-hit:hover{fill:var(--hover-2);fill-opacity:.55}
   .cd-pulse{transform-box:fill-box;transform-origin:center;animation:cdpulse 2.2s ease-in-out infinite}
@@ -767,6 +763,7 @@
       '<div class="cd-right" id="cdRight"></div>';
     wireCountdown();
     drawSkyline(v);
+    if(typeof renderHours==="function") renderHours();
   }
 
   function wireCountdown(){
@@ -830,32 +827,28 @@
     holder.innerHTML='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="max-width:100%">'+baseLine+stubs+bars+'</svg>';
   }
 
-  // ---------- Hours tracker ----------
+  // ---------- Hours tracker (shares the Countdown's days) ----------
   var hoursEl=document.getElementById("hoursPanel");
-  var hrEditTarget=null, hrSel=null;
+  var hrSel=null;
   function ensureHours(){
     var h=state.hours,changed=false;
-    if(!h||typeof h!=="object"){state.hours={name:"Work hours",start:todayISO,total:30,log:{}};return true;}
-    if(!h.start){h.start=todayISO;changed=true;}
-    if(typeof h.total!=="number"){h.total=30;changed=true;}
-    if(typeof h.name!=="string"){h.name="Work hours";changed=true;}
+    if(!h||typeof h!=="object"){state.hours={name:"Launch",log:{}};return true;}
+    if(typeof h.name!=="string"){h.name="Launch";changed=true;}
     if(!h.log||typeof h.log!=="object"){h.log={};changed=true;}
     return changed;
   }
   function hrValues(){
-    var h=state.hours;
-    var total=Math.max(1,Math.round(h.total));
-    var elapsed=Math.max(0,Math.min(total,daysBetween(h.start,todayISO)));
-    var lastIdx=Math.min(elapsed,total-1); // last day you can log (today, or the final day if the run is over)
-    var sum=0,days=0;
-    for(var i=0;i<=lastIdx;i++){var v=+h.log[fmtISO(addDays(parseISO(h.start),i))]||0; sum+=v; if(v>0)days++;}
-    var counted=lastIdx+1;
-    return {total:total,elapsed:elapsed,left:total-elapsed,name:h.name,start:h.start,lastIdx:lastIdx,sum:sum,avg:counted?sum/counted:0,loggedDays:days};
+    var v=cdValues(), log=state.hours.log;
+    var lastIdx=Math.min(v.elapsed,v.total-1); // today, or the final day if the countdown is over
+    var sum=0;
+    for(var i=0;i<=lastIdx;i++) sum+=(+log[fmtISO(addDays(parseISO(v.start),i))]||0);
+    var days=lastIdx+1; // every day counts, zero-hour days included
+    return {total:v.total,elapsed:v.elapsed,left:v.left,start:v.start,lastIdx:lastIdx,avg:days?sum/days:0,name:state.hours.name};
   }
-  function fmtH(n){return String(Math.round(n*100)/100);}
+  function fmtH(n){return String(Math.round(n*10)/10);}
   function hrDayLabel(iso){
-    if(iso===todayISO) return "Today";
-    var d=parseISO(iso); return DOW[(d.getDay()+6)%7]+" "+d.getDate()+" "+MONTHS[d.getMonth()];
+    if(iso===todayISO) return "today";
+    var d=parseISO(iso); return DOW[(d.getDay()+6)%7]+" "+d.getDate();
   }
   function hrValidSel(v){
     var first=v.start, last=fmtISO(addDays(parseISO(v.start),v.lastIdx));
@@ -867,33 +860,25 @@
     if(!hoursEl) return;
     if(ensureHours()) save();
     var v=hrValues(), sel=hrValidSel(v);
-    var pct=Math.round(v.elapsed/v.total*100);
     var C=2*Math.PI*30, green=C*v.elapsed/v.total;
-    var CS=cvar('--cd-stub'), CA=cvar('--accent'), CI=cvar('--ink');
+    var CS=cvar('--cd-stub'), CA=cvar('--accent'), CI=cvar('--ink'), CM=cvar('--muted');
     var cur=+state.hours.log[sel]||0;
     hoursEl.innerHTML=
       '<div class="cd-left">'+
-        '<div class="cd-capt">Hours toward <span class="cd-name" id="hrName" title="Click to rename">'+escapeHtml(v.name)+'</span></div>'+
+        '<div class="cd-capt">Hours worked -&gt; <span class="cd-name" id="hrName" title="Click to rename">'+escapeHtml(v.name)+'</span></div>'+
         '<div class="cd-mid">'+
           '<svg width="76" height="76" viewBox="0 0 76 76" aria-hidden="true">'+
             '<circle cx="38" cy="38" r="30" fill="none" stroke="'+CS+'" stroke-width="9"></circle>'+
             '<circle cx="38" cy="38" r="30" fill="none" stroke="'+CA+'" stroke-width="9" stroke-linecap="round" transform="rotate(-90 38 38)" stroke-dasharray="'+green.toFixed(1)+' '+C.toFixed(1)+'"></circle>'+
-            '<text x="38" y="37" text-anchor="middle" style="font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:16px;fill:'+CI+'">'+fmtH(v.sum)+'h</text>'+
-            '<text x="38" y="51" text-anchor="middle" style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;fill:'+cvar('--muted')+'">total</text>'+
+            '<text x="38" y="38" text-anchor="middle" style="font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:15px;fill:'+CI+'">'+fmtH(v.avg)+'h</text>'+
+            '<text x="38" y="50" text-anchor="middle" style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;fill:'+CM+'">avg/day</text>'+
           '</svg>'+
           '<div class="cd-num">'+
-            '<div><span class="big'+(hrEditTarget==="left"?" editing":"")+'" id="hrLeft">'+v.left+'</span><span class="tot'+(hrEditTarget==="total"?" editing":"")+'" id="hrTot">/'+v.total+'</span></div>'+
+            '<div><span class="big hr-static">'+v.left+'</span><span class="tot hr-static">/'+v.total+'</span></div>'+
             '<div class="lbl">days left</div>'+
-            '<div class="cd-step'+(hrEditTarget?" open":"")+'"><button id="hrMinus" aria-label="Decrease">−</button><button id="hrPlus" aria-label="Increase">+</button><span class="cd-editing">'+(hrEditTarget==="total"?"total days":"days left")+'</span></div>'+
+            '<div class="cd-step open hr-step"><button id="hrDec" aria-label="One hour less">−</button><button id="hrInc" aria-label="One hour more">+</button><span class="cd-editing"><b class="hr-cur">'+cur+'</b> hours worked'+(sel===todayISO?"":" · "+hrDayLabel(sel))+'</span></div>'+
           '</div>'+
         '</div>'+
-        '<div class="hr-log">'+
-          '<span class="hr-day" id="hrDay">'+hrDayLabel(sel)+'</span>'+
-          '<input class="hr-in" id="hrIn" type="number" min="0" max="24" step="0.5" inputmode="decimal" value="'+(cur?fmtH(cur):"")+'" placeholder="0" aria-label="Hours worked on '+hrDayLabel(sel)+'" />'+
-          '<span class="hr-unit">h</span>'+
-          '<button id="hrDec" aria-label="Half an hour less">−</button><button id="hrInc" aria-label="Half an hour more">+</button>'+
-        '</div>'+
-        '<div class="hr-sub">avg '+fmtH(v.avg)+' h/day · '+v.loggedDays+' day'+(v.loggedDays===1?"":"s")+' logged<br>click a bar to edit that day</div>'+
       '</div>'+
       '<div class="cd-right" id="hrRight"></div>';
     wireHours();
@@ -901,7 +886,7 @@
   }
 
   function setHours(iso,val){
-    val=Math.max(0,Math.min(24,Math.round((+val||0)*4)/4));
+    val=Math.max(0,Math.min(24,Math.round(+val||0)));
     if(val>0) state.hours.log[iso]=val; else delete state.hours.log[iso];
     save();
   }
@@ -915,42 +900,24 @@
       inp.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();commit();}else if(e.key==="Escape"){done=true;renderHours();}});
       inp.addEventListener("blur",commit);
     });
-    document.getElementById("hrLeft").addEventListener("click",function(){hrEditTarget=(hrEditTarget==="left"?null:"left");renderHours();});
-    document.getElementById("hrTot").addEventListener("click",function(){hrEditTarget=(hrEditTarget==="total"?null:"total");renderHours();});
-    document.getElementById("hrMinus").addEventListener("click",function(){changeHr(-1);});
-    document.getElementById("hrPlus").addEventListener("click",function(){changeHr(1);});
-    var inp=document.getElementById("hrIn");
-    inp.addEventListener("change",function(){ setHours(hrSel,inp.value); renderHours(); });
-    inp.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); inp.blur(); } });
-    document.getElementById("hrDec").addEventListener("click",function(){ setHours(hrSel,(+state.hours.log[hrSel]||0)-0.5); renderHours(); });
-    document.getElementById("hrInc").addEventListener("click",function(){ setHours(hrSel,(+state.hours.log[hrSel]||0)+0.5); renderHours(); });
-  }
-  function changeHr(d){
-    var v=hrValues();
-    if(hrEditTarget==="total"){
-      state.hours.total=Math.min(200,Math.max(Math.max(1,v.elapsed),v.total+d));
-    }else{
-      var newLeft=Math.max(0,Math.min(v.total,v.left+d));
-      state.hours.start=fmtISO(addDays(parseISO(todayISO),-(v.total-newLeft)));
-    }
-    save(); renderHours();
+    document.getElementById("hrDec").addEventListener("click",function(){ setHours(hrSel,(+state.hours.log[hrSel]||0)-1); renderHours(); });
+    document.getElementById("hrInc").addEventListener("click",function(){ setHours(hrSel,(+state.hours.log[hrSel]||0)+1); renderHours(); });
   }
 
   function drawHoursChart(v){
     var holder=document.getElementById("hrRight"); if(!holder)return;
     var CG=cvar('--cd-green'), CS=cvar('--cd-stub'), CT=cvar('--cd-today'), CL=cvar('--line'), CM=cvar('--muted');
     var W=Math.max(120,Math.floor(holder.clientWidth||holder.getBoundingClientRect().width||420));
-    var H=118, base=104, maxH=72, total=v.total;
+    var H=100, base=90, maxH=60, total=v.total;
     var slot=W/total, barW=Math.max(2,Math.min(slot*0.62,20));
     var log=state.hours.log, peak=4;
     for(var k=0;k<=v.lastIdx;k++){var hv=+log[fmtISO(addDays(parseISO(v.start),k))]||0; if(hv>peak)peak=hv;}
-    var showVals=slot>=17;
+    var showVals=slot>=14;
     var out="",hits="";
     for(var i=0;i<total;i++){
       var x=i*slot+slot/2, iso=fmtISO(addDays(parseISO(v.start),i));
       if(i<=v.lastIdx){
-        var hrs=+log[iso]||0, isSel=(iso===hrSel), isToday=(iso===todayISO);
-        var col=isSel?CT:CG;
+        var hrs=+log[iso]||0, isSel=(iso===hrSel), col=isSel?CT:CG;
         if(hrs>0){
           var h=4+hrs/peak*maxH, y=base-h;
           out+='<rect x="'+(x-barW/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+barW.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="2" fill="'+col+'"/>';
@@ -958,11 +925,7 @@
         } else {
           out+='<rect x="'+(x-barW/2).toFixed(1)+'" y="'+(base-4).toFixed(1)+'" width="'+barW.toFixed(1)+'" height="4" rx="2" fill="'+(isSel?CT:CS)+'"/>';
         }
-        if(isToday){
-          var top=hrs>0?base-(4+hrs/peak*maxH):base-4, off=(hrs>0&&showVals)?16:9;
-          out+='<circle class="cd-pulse" cx="'+x.toFixed(1)+'" cy="'+(top-off).toFixed(1)+'" r="3.2" fill="'+CT+'"/>';
-        }
-        hits+='<rect class="hr-hit" data-iso="'+iso+'" x="'+(i*slot).toFixed(1)+'" y="0" width="'+slot.toFixed(1)+'" height="'+H+'" fill="transparent"><title>'+hrDayLabel(iso)+': '+fmtH(+log[iso]||0)+' h</title></rect>';
+        hits+='<rect class="hr-hit" data-iso="'+iso+'" x="'+(i*slot).toFixed(1)+'" y="0" width="'+slot.toFixed(1)+'" height="'+H+'" fill="transparent"><title>'+hrDayLabel(iso)+': '+fmtH(hrs)+' h</title></rect>';
       } else {
         out+='<rect x="'+(x-barW/2).toFixed(1)+'" y="'+(base-6).toFixed(1)+'" width="'+barW.toFixed(1)+'" height="6" rx="2" fill="'+(i===total-1?CG:CS)+'"/>';
       }
@@ -970,7 +933,7 @@
     var baseLine='<line x1="0" y1="'+base+'" x2="'+W+'" y2="'+base+'" stroke="'+CL+'" stroke-width="1"/>';
     holder.innerHTML='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="max-width:100%">'+hits+baseLine+out+'</svg>';
     holder.querySelectorAll(".hr-hit").forEach(function(r){
-      r.addEventListener("click",function(){ hrSel=r.getAttribute("data-iso"); renderHours(); var i=document.getElementById("hrIn"); if(i){i.focus();i.select();} });
+      r.addEventListener("click",function(){ hrSel=r.getAttribute("data-iso"); renderHours(); });
     });
   }
 
